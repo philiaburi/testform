@@ -70,21 +70,34 @@ export default {
     };
   },
   methods: {
+    encode(data) {
+      return Object.keys(data)
+        .map(
+          (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+        )
+        .join("&");
+    },
     onSubmit() {
       if (this.sendStatus === "is-sending") return;
+      const axiosConfig = {
+        header: { "Content-Type": "application/x-www-form-urlencoded" },
+      };
       this.sendStatus = "is-sending";
       this.text = "送信中...";
-      const params = new URLSearchParams();
-      params.append("form-name", "contact");
-      params.append("username", this.name);
-      params.append("email", this.mail);
-      params.append("tel", this.tel);
+      const params = {
+        "form-name": "contact",
+        username: this.name,
+        email: this.mail,
+        tel: this.tel,
+        "bot-field": this.botField,
+      };
+
       if (this.botField) {
         params.append("bot-field", this.botField);
       }
       console.log("送信しました");
       this.$axios
-        .$post("/", params)
+        .$post("/", this.encode(params), axiosConfig)
         .then(() => {
           this.text = "お問い合わせを送信しました！";
           this.resetForm();
