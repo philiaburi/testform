@@ -57,10 +57,8 @@
     </v-col>
   </v-row>
 </template>
-<script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
+<script>
+export default {
   data() {
     return {
       text: "",
@@ -68,12 +66,12 @@ export default Vue.extend({
       mail: "",
       tel: "",
       botField: "",
-      sendStatus: "" as "" | "is-sending" | "is-error" | "is-complete",
+      sendStatus: "",
     };
   },
   methods: {
     onSubmit() {
-      if (this.sendStatus !== "is-sending") return;
+      if (this.sendStatus === "is-sending") return;
       this.sendStatus = "is-sending";
       this.text = "送信中...";
       const params = new URLSearchParams();
@@ -84,6 +82,7 @@ export default Vue.extend({
       if (this.botField) {
         params.append("bot-field", this.botField);
       }
+      console.log("送信しました");
       this.$axios
         .$post("/", params)
         .then(() => {
@@ -96,13 +95,13 @@ export default Vue.extend({
           this.sendStatus = "is-error";
         });
     },
-
     resetForm() {
       this.sendStatus = "";
       this.name = "";
       this.mail = "";
       this.tel = "";
+      this.$refs.observer.reset();
     },
   },
-});
+};
 </script>
