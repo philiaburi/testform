@@ -99,7 +99,9 @@ export default Vue.extend({
 
     resetForm() {
       this.sendStatus = "";
-      this.$refs.observer.reset();
+      this.name = "";
+      this.mail = "";
+      this.tel = "";
     },
   },
 });
