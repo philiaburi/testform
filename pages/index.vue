@@ -97,11 +97,7 @@ export default {
       }
       console.log("送信しました");
       this.$axios
-        .$post(
-          "https://612259e042627f0008f6d6a5--focused-roentgen-f049e4.netlify.app/",
-          this.encode(params),
-          axiosConfig
-        )
+        .$post("/", this.encode(params), axiosConfig)
         .then(() => {
           this.text = "お問い合わせを送信しました！";
           this.resetForm();
