@@ -26,6 +26,7 @@
               v-model="name"
               label="お名前"
               required
+              name="username"
               :error-messages="errors"
             ></v-text-field>
           </validation-provider>
@@ -38,11 +39,17 @@
               v-model="mail"
               label="E-mail"
               required
+              name="email"
               :error-messages="errors"
             ></v-text-field>
           </validation-provider>
 
-          <v-text-field v-model="tel" label="電話番号" required></v-text-field>
+          <v-text-field
+            v-model="tel"
+            label="電話番号"
+            name="tel"
+            required
+          ></v-text-field>
 
           <v-btn
             class="mr-4"
@@ -95,7 +102,7 @@ export default {
       if (this.botField) {
         params.append("bot-field", this.botField);
       }
-      console.log("送信しました");
+      console.log("送信しました", params);
       this.$axios
         .$post("/", this.encode(params), axiosConfig)
         .then(() => {
