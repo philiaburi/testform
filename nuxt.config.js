@@ -1,5 +1,7 @@
 import colors from "vuetify/es5/util/colors";
-
+require("dotenv").config();
+const { CTF_BLOG_POST_TYPE_ID, CTF_SPACE_ID, CTF_CDA_ACCESS_TOKEN } =
+  process.env;
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: true,
@@ -70,5 +72,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vee-validate/dist/rules"],
+  },
+  env: {
+    CTF_BLOG_POST_TYPE_ID,
+    CTF_SPACE_ID,
+    CTF_CDA_ACCESS_TOKEN,
   },
 };

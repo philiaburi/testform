@@ -6,7 +6,11 @@
         <VuetifyLogo />
       </v-card>
       <v-card class="pa-6 my-4">
-        <v-card-title> テストフォーム </v-card-title>
+        <v-card-title>
+          <div v-for="(item, index) in posts" :key="index">
+            {{ item.fields.test || "" }}
+          </div>
+        </v-card-title>
         <validation-observer
           ref="observer"
           tag="form"
@@ -65,6 +69,8 @@
   </v-row>
 </template>
 <script>
+import { createClient } from "~/plugins/contentful.js";
+const client = createClient();
 export default {
   data() {
     return {
@@ -74,7 +80,19 @@ export default {
       tel: "",
       botField: "",
       sendStatus: "",
+      posts: [],
     };
+  },
+  async fetch() {
+    // 記事一覧を取得
+    try {
+      const entries = await client.getEntries({
+        content_type: process.env.CTFL_CONTENT_TYPE_POST,
+      });
+      this.posts = entries.items;
+    } catch (error) {
+      console.log("エラーが出ました", error);
+    }
   },
   methods: {
     encode(data) {
