@@ -120,7 +120,7 @@ export default {
       if (this.botField) {
         params.append("bot-field", this.botField);
       }
-      console.log("送信しました", params);
+
       this.$axios
         .$post("/", this.encode(params), axiosConfig)
         .then(() => {
